@@ -1,7 +1,7 @@
 %% Load data
 load("Gen_sample.mat")
 
-%% plot first and second moments of statistics Generated profiles
+%% plot first and second moments of statistics Generated profiles(Low Resolution VF)
 kappa = 0.39;
 figure
 subplot(4,1,1)
@@ -43,7 +43,7 @@ ylabel('$-\mathrm{Covar(u,w)}/u_{\tau}^2$','Interpreter','Latex','FontSize',14);
 ylim([0 1.5])
 
 
-%% plot first and second moments of statistics Generated Velocity field
+%% plot first and second moments of statistics Generated Velocity field(High Resolution VF)
 figure
 subplot(4,1,1)
 plot(mean(mean(Gen_sample.Gen_u_HRVF,3),2)/Gen_sample.u_tau,...

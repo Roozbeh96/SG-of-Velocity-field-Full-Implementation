@@ -1,11 +1,13 @@
 function [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
-    u_wOu_tau_far, r_wOlambda_T_far, rho_uw_VorX_far]= VorX_generator(obj)
+    u_wOu_tau_far, r_wOlambda_T_far, rho_uw_VorX_far,...
+    omega_near_deciles, u_wOu_tau_near_deciles, r_wOlambda_T_near_deciles,...
+    omega_far_deciles, u_wOu_tau_far_deciles, r_wOlambda_T_far_deciles]= VorX_generator(obj)
 
     % Generating corrolated random numbers for radius and max-azimuthal
     % velocity. First we generate for near wall then generate for far from
     % the wall.
 
-    obj.ro_r_u_omega_near_wall = 0.4;
+    obj.ro_r_u_omega_near_wall = obj.ro_uw;
     n = 1e7; % Number of samples
     repro_numb = 97;
     [rand_u_omega, rand_r_omega] = genGaussCop(obj.ro_r_u_omega_near_wall,...
@@ -73,7 +75,7 @@ function [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
 
     % Generate vortex parameters for far from the wall
 
-    obj.ro_r_u_omega_far_wall = 0.45;
+    obj.ro_r_u_omega_far_wall = obj.ro_uw;
     n = 1e7; % Number of samples
     repro_numb = 143;
     [rand_u_omega, rand_r_omega] = genGaussCop(obj.ro_r_u_omega_far_wall,...
@@ -119,5 +121,58 @@ function [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
     rng(61)
     rand_rho_uw_VorX = rand(n, 1);  
     rho_uw_VorX_far = inversecdf(rand_rho_uw_VorX);
+
+
+
+
+
+    % Find the omega of the generated vortices
+    omega_near = u_wOu_tau_near./r_wOlambda_T_near*obj.u_tau/obj.lambda;
+    omega_near_norm= omega_near/std(omega_near,0,1);
+
+    omega_far = u_wOu_tau_far./r_wOlambda_T_far*obj.u_tau/obj.lambda;
+    omega_far_norm= omega_far/std(omega_far,0,1);
+
+    % Dividing the generated vortices into deciles for the matter of
+    % matching
+
+    omega_near_deciles = cell(1, 10); % Create a container for 10 groups
+    u_wOu_tau_near_deciles = cell(1, 10);
+    r_wOlambda_T_near_deciles = cell(1, 10);
+
+
+    for i = 1:10
+        L = (i-1) * 10;
+        U = i * 10;
+        
+        valL = prctile(omega_near_norm, L);
+        valU = prctile(omega_near_norm, U);
+        
+        % Store the samples for this specific bracket
+        omega_near_deciles{i} = omega_near_norm(omega_near_norm >= valL & omega_near_norm <= valU);
+        u_wOu_tau_near_deciles{i} = u_wOu_tau_near(omega_near_norm >= valL & omega_near_norm <= valU);
+        r_wOlambda_T_near_deciles{i} = r_wOlambda_T_near(omega_near_norm >= valL & omega_near_norm <= valU);
+    end
+    
+    omega_far_deciles = cell(1, 10); % Create a container for 10 groups
+    u_wOu_tau_far_deciles = cell(1, 10);
+    r_wOlambda_T_far_deciles = cell(1, 10);
+
+
+   
+
+    for i = 1:10
+        L = (i-1) * 10;
+        U = i * 10;
+        
+        valL = prctile(omega_far_norm, L);
+        valU = prctile(omega_far_norm, U);
+        
+        % Store the samples for this specific bracket
+        omega_far_deciles{i} = omega_far_norm(omega_far_norm >= valL & omega_far_norm <= valU);
+        u_wOu_tau_far_deciles{i} = u_wOu_tau_far(omega_far_norm >= valL & omega_far_norm <= valU);
+        r_wOlambda_T_far_deciles{i} = r_wOlambda_T_far(omega_far_norm >= valL & omega_far_norm <= valU);
+    end
+
 
 end

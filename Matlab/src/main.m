@@ -28,6 +28,16 @@ addpath(fullfile(root, 'utils')); %addpath for using functions in utils.
 The physical properties of the wind tunnel (m1) are used. You can find 
 details about this dataset in the papers.
 %}
+u_tau = 2.325; %[m/s]
+z_0 = 3.8e-4; %[m]
+kappa = 0.39;
+AFR = 8.5;
+ks = z_0/exp(-kappa*AFR);
+delta = 1.09; %[m]
+lambda = 0.007; %[m]
+nu = 1.57e-5; %[m^2/s]
+
+%{
 u_tau = 0.39; %[m/s]
 z_0 = 6.2e-4; %[m]
 kappa = 0.39;
@@ -36,6 +46,8 @@ ks = z_0/exp(-kappa*AFR);
 delta = 0.4; %[m]
 lambda = 0.01; %[m]
 nu = 1.57e-5; %[m^2/s]
+%}
+
 %{
 Define the wall-normal extent of the generated profiles which covers
 logarithmic layer. Log region starts from z+ = 30, continues till z/delta =
@@ -69,9 +81,14 @@ the wind tunnel (m1) dataset is -0.4. You can tweak it w.r.t. your dataset.
 N_prof is number of profiles we want to generate.
 %}
 
-ro_uw = -0.4;
+% ro_uw = -0.4;
+% Can also use Priyadarshana and Klevicki (2004) equation:
+U_inf = 50;
+Theta = 0.15*delta;
+Re_tau = u_tau*delta/nu;
+ro_uw = -0.03*log(U_inf*Theta/(u_tau*delta)*Re_tau)+0.63;
 N_prof = 1e4;
-Gen_sample.SGVP(ro_uw, N_prof)
+Gen_sample.SGVP(-ro_uw, N_prof)
 
 %% Stochastic Generation of Velocity Field (SGVF)
 
@@ -106,12 +123,26 @@ Lambda_ci(Gen_sample)
 %}
 
 [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
-    u_wOu_tau_far, r_wOlambda_T_far, rho_uw_VorX_far] = VorX_generator(Gen_sample);
+    u_wOu_tau_far, r_wOlambda_T_far, rho_uw_VorX_far,...
+    omega_near_deciles, u_wOu_tau_near_deciles, r_wOlambda_T_near_deciles,...
+    omega_far_deciles, u_wOu_tau_far_deciles, r_wOlambda_T_far_deciles] = VorX_generator(Gen_sample);
+
+
+%% Find the cdf of the omega distribution
+%{
+    At this step, we find the c.d.f. of the omega distribution in the
+    non_zero lambda_ci regions. The output of this step is used in decile
+    matching process.
+%}
+cdf_omega(Gen_sample)
+
 
 %% Adding Stochastically Generated Vortex Cores to the VF
 
 Gen_sample.SGVorX(u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
-    u_wOu_tau_far, r_wOlambda_T_far, rho_uw_VorX_far)
+    u_wOu_tau_far, r_wOlambda_T_far, rho_uw_VorX_far,...
+    omega_near_deciles, u_wOu_tau_near_deciles, r_wOlambda_T_near_deciles,...
+    omega_far_deciles, u_wOu_tau_far_deciles, r_wOlambda_T_far_deciles)
 
 %% Passing smoothing filter
 kern_xsize = 0.4;

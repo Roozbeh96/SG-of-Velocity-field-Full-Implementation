@@ -1,12 +1,23 @@
-function [pr, rt] = Lambdaci_VorX(obj,i,...
+function [pr, rt,r_wOlambda_T,u_wOu_tau] = Lambdaci_VorX(obj,i,...
     S,xcs,zcs,rot,r_wOlambda_T,...
-    u_wOu_tau, rho_uw_VorX, pr, rt, N)
+    u_wOu_tau, rho_uw_VorX, ind_, pr, rt, N, cdf_, mean_omega_,omega_,...
+    omega_deciles, r_wOlambda_T_deciles, u_wOu_tau_deciles)
 
-
-           
-    r_omega = r_wOlambda_T*obj.lambda;
-    u_omega = u_wOu_tau*obj.u_tau;
+    percentile_rank = cdf_(find(mean_omega_ <= abs(omega_), 1, 'last'))*100;
+    percentile_rank = ceil(percentile_rank / 10);
+    if isempty(percentile_rank)
+        percentile_rank = 1;
+    end
+    omega_samples = omega_deciles{percentile_rank};
+    randomIndex = randi(size(omega_samples,1));
+    
+    r_omega = r_wOlambda_T_deciles{percentile_rank}(randomIndex)*obj.lambda;
+    u_omega = u_wOu_tau_deciles{percentile_rank}(randomIndex)*obj.u_tau;
     Gama=2*pi*u_omega*r_omega/(1-exp(-1));
+
+    r_wOlambda_T(ind_) = r_wOlambda_T_deciles{percentile_rank}(randomIndex);
+    u_wOu_tau(ind_) = u_wOu_tau_deciles{percentile_rank}(randomIndex);
+
     TVorX = [1, rho_uw_VorX; 0, sqrt(1 - rho_uw_VorX^2)];
 
     

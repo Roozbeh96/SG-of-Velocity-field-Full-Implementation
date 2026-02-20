@@ -17,6 +17,10 @@ function Lambda_ci(obj)
                     temp = [dudx(r,c) dudz(r,c); dwdx(r,c) dwdz(r,c)];
                     obj.Lambda_ci(r,c,S) = unique(abs(imag(eig(temp))))...
                         *sign(omega(r,c));
+
+                    if  unique(abs(imag(eig(temp)))) ~= 0
+                        obj.omega(r,c,S) = omega(r,c);
+                    end
             
                 end
             end
@@ -24,13 +28,21 @@ function Lambda_ci(obj)
       
     end
     Lambda_cirms_ = zeros(size(obj.Lambda_ci,1),1);
+    omega_rms_ = zeros(size(obj.Lambda_ci,1),1);
+
     for z_ = 1:size(obj.Lambda_ci,1)
         temp_ = obj.Lambda_ci(z_,:,:);
         temp_ = temp_(temp_~=0);
         Lambda_cirms_(z_,1) = std(temp_,0,1);
+
+        temp__ = obj.omega(z_,:,:);
+        temp__ = temp__(temp__~=0);
+        omega_rms_(z_,1)= std(temp__,0,1);
+
     end
     
     
     obj.Lambda_cirms = Lambda_cirms_;
+    obj.omega_rms = omega_rms_;
 end
 
