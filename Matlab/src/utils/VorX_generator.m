@@ -123,9 +123,6 @@ function [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
     rho_uw_VorX_far = inversecdf(rand_rho_uw_VorX);
 
 
-
-
-
     % Find the omega of the generated vortices
     omega_near = u_wOu_tau_near./r_wOlambda_T_near*obj.u_tau/obj.lambda;
     omega_near_norm= omega_near/std(omega_near,0,1);
