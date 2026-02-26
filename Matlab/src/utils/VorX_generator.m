@@ -7,7 +7,7 @@ function [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
     % velocity. First we generate for near wall then generate for far from
     % the wall.
 
-    obj.ro_r_u_omega_near_wall = obj.ro_uw;
+    obj.ro_r_u_omega_near_wall = 0.4;
     n = 1e7; % Number of samples
     repro_numb = 97;
     [rand_u_omega, rand_r_omega] = genGaussCop(obj.ro_r_u_omega_near_wall,...
@@ -75,7 +75,7 @@ function [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
 
     % Generate vortex parameters for far from the wall
 
-    obj.ro_r_u_omega_far_wall = obj.ro_uw;
+    obj.ro_r_u_omega_far_wall = 0.45;
     n = 1e7; % Number of samples
     repro_numb = 143;
     [rand_u_omega, rand_r_omega] = genGaussCop(obj.ro_r_u_omega_far_wall,...

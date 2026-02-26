@@ -50,15 +50,15 @@ nu = 1.57e-5; %[m^2/s]
 
 %{
 Define the wall-normal extent of the generated profiles which covers
-logarithmic layer. Log region starts from z+ = 30, continues till z/delta =
-0.3. The values here are conservatively considered. The wall-normal
-resolution of profiles is selected 0.4*lambda/10. Since average thickness
-of shear layer is 0.4*lambda, I divided it into 10 to sesolve the shear
-layer.
+logarithmic layer. Log region in rough-wall TBL starts from z = 1.5*ks,
+continues till z/delta = 0.25. The values here are conservatively considered.
+The wall-normal resolution of profiles is selected 0.4*lambda/6. Since
+average thickness of shear layer is 0.4*lambda, I divided it into 6 to
+resolve the shear layer.
 %}
-z_min = 50*nu/u_tau; %[m]
+z_min = 1.5*ks; %[m]
 z_max = 0.25*delta; %[m]
-res_z = 0.4*lambda/10; %[m]
+res_z = 0.4*lambda/5; %[m]
 % Let us generate an object. 
 
 Gen_sample = stochastic_generation(u_tau, z_0, ks,delta, lambda, nu,z_min, z_max,...
@@ -87,7 +87,7 @@ U_inf = 50;
 Theta = 0.15*delta;
 Re_tau = u_tau*delta/nu;
 ro_uw = -0.03*log(U_inf*Theta/(u_tau*delta)*Re_tau)+0.63;
-N_prof = 1e4;
+N_prof = 4e4;
 Gen_sample.SGVP(-ro_uw, N_prof)
 
 %% Stochastic Generation of Velocity Field (SGVF)
@@ -108,7 +108,7 @@ Gen_sample.SGVF(Delta_x)
  the paper.  All these steps are done increasing_res function.
 %}
 L = 1; 
-Kr = 32;
+Kr = 10;
 increasing_res(Gen_sample, L, Kr);
 % In the next step, we need to find the Lambda_ci field to add the
 % vortices.
@@ -144,13 +144,29 @@ Gen_sample.SGVorX(u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
     omega_near_deciles, u_wOu_tau_near_deciles, r_wOlambda_T_near_deciles,...
     omega_far_deciles, u_wOu_tau_far_deciles, r_wOlambda_T_far_deciles)
 
-%% Passing smoothing filter
+%% computing std of the filter
+
+w0 = 1e-5;
+li = 0.4*Gen_sample.lambda;
+f = @(s) 2*(-2*s.*log(2*w0*pi*s))^0.5 - li;
+
+% Solve using fzero with an initial guess
+s0 = 1e-7;   % initial guess(Change it if it is necessary)
+sol = fzero(f, s0);
+
+% Display solution
+disp(sol)
+
+%The next line is just a check to verify the correctness of computed std.
+% li should be equal to 0.4*lambda
+% li = 2*(-2*sol*log(2*pi*w0*sol))^0.5;
+
+Sigma = [sol 0;...
+    0 sol];
+
+%% Passing the filter
 kern_xsize = 0.4;
 kern_ysize = 0.4;
-Sigma = [Gen_sample.lambda*0.00001 0;...
-    0 Gen_sample.lambda*0.00001];
-
-
 Gen_sample.Gauss_kernel(kern_xsize, kern_ysize, Sigma)
 
 %% Spectral and structure function analysis
@@ -158,6 +174,13 @@ Gen_sample.Gauss_kernel(kern_xsize, kern_ysize, Sigma)
 Gen_sample.Spectral_analysis
 Gen_sample.Structure_function
 
+%% Computing production
+
+production_comp(Gen_sample)
 %% Saving
 
 save('Gen_sample.mat','Gen_sample')
+
+%% Loading
+
+load('Gen_sample.mat');

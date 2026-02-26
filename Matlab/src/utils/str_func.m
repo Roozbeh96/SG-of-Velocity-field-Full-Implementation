@@ -7,22 +7,26 @@ function str_func(obj)
     %}
     uprime = obj.Gen_u_HRVF - mean(obj.Gen_u_HRVF,3);
     concat_uprime = reshape(uprime,size(uprime, 1), []);
-    win12del = ceil(12*obj.delta/(obj.Gen_x_HRVF(2)-obj.Gen_x_HRVF(1)));
-    Numb_frame = floor(size(concat_uprime,2)/win12del);
-    obj.D11=zeros(size(concat_uprime,1),win12del+1,Numb_frame);
-    obj.r11=zeros(1,win12del+1);
+    win8del = ceil(8*obj.delta/(obj.Gen_x_HRVF(2)-obj.Gen_x_HRVF(1)));
+    Numb_frame = floor(size(concat_uprime,2)/win8del);
+    obj.D11=zeros(size(concat_uprime,1),win8del+1,Numb_frame);
+    obj.r11=zeros(1,win8del+1);
     obj.epsilon_str = zeros(size(concat_uprime,1),Numb_frame);
     obj.eta_str = zeros(size(concat_uprime,1),Numb_frame);
     progressbar('Computing Structure Function')
-    for r=0:win12del
+    for r=0:win8del
         obj.r11(1,r+1)=(obj.Gen_x_HRVF(2)-obj.Gen_x_HRVF(1))*r;
     end
-    
+    [~, ind_] = find(obj.z/obj.delta>= 0.01, 1, 'first');
+    [~, ind__] = find(obj.z/obj.delta>= 0.02, 1, 'first');
+    [~, ind___] = find(obj.z/obj.delta>= 0.08, 1, 'first');
+    [~, ind____] = find(obj.z/obj.delta>= 0.14, 1, 'first');
+    Z = [ind_, ind__, ind___,ind____];
     for S = 1:Numb_frame
-        for elev = 1:size(obj.z,2)
+        for elev = Z
             for r=0:size(obj.r11,2)-1
-                obj.D11(elev,r+1,S)=mean((concat_uprime(elev,(S-1)*win12del+1:S*win12del+1-r)-...
-                    concat_uprime(elev,(S-1)*win12del+1+r:S*win12del+1)).^2,2);
+                obj.D11(elev,r+1,S)=mean((concat_uprime(elev,(S-1)*win8del+1:S*win8del+1-r)-...
+                    concat_uprime(elev,(S-1)*win8del+1+r:S*win8del+1)).^2,2);
             end
         end
         [max_val]=max(obj.D11(:,:,S).*obj.r11.^(-2/3),[],2);

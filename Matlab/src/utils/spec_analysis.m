@@ -9,10 +9,10 @@ function spec_analysis(obj)
     concat_uprime = reshape(uprime,size(uprime, 1), []);
     ksmax=floor(2*pi/(obj.Gen_x_HRVF(2)-obj.Gen_x_HRVF(1)));
     
-    win12del=floor(12*obj.delta/(obj.Gen_x_HRVF(2)-obj.Gen_x_HRVF(1)));
-    window=hann(win12del);
-    NFFT=2^(nextpow2(win12del));
-    [PSD_k,k]=pwelch(concat_uprime',window,NFFT/2,win12del,ksmax); %PSD_f[m^2/s]
+    win8del=floor(8*obj.delta/(obj.Gen_x_HRVF(2)-obj.Gen_x_HRVF(1)));
+    window=hann(win8del);
+    NFFT=2^(nextpow2(win8del));
+    [PSD_k,k]=pwelch(concat_uprime',window,NFFT/2,win8del,ksmax); %PSD_f[m^2/s]
     Apk = trapz(k,PSD_k);
     Q = mean(var(obj.Gen_u_HRVF,0,3),2)./Apk';  %%[m^3/s^2]=[m^2/s]*[m^2/s^2]*1/[m/s]
     obj.PowSpecDen_k=(PSD_k.*Q')';
