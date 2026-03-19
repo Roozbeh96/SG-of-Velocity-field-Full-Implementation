@@ -153,7 +153,7 @@ function SG_VorX(obj, u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
                         r_omega, xc_near_wall-prev_pos_xc_near_wall_VorX]); 
                     prev_pos_xc_near_wall_VorX = xc_near_wall;
                     temp_near_wall_VorX_counter = temp_near_wall_VorX_counter +1;
-                    
+
                 else 
                     near_wall_VorX_data{S}{temp_near_wall_VorX_counter} = ...
                         dictionary(["xc_VorX","zc_VorX","u_omega","r_omega",...
@@ -199,7 +199,7 @@ function SG_VorX(obj, u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
                 u_TVorX = reshape(B(:,1), size(u_VorX));
                 w_TVorX = reshape(B(:,2), size(w_VorX));
 
-                
+
                 % Adding to the velocity field.
                 obj.Gen_u_HRVF(indz,indx,S) = obj.Gen_u_HRVF(indz,indx,S)+ u_TVorX;
                 obj.Gen_w_HRVF(indz,indx,S) = obj.Gen_w_HRVF(indz,indx,S)+ w_TVorX;
@@ -243,7 +243,7 @@ function SG_VorX(obj, u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
                     min(cols), max(cols), omega_region_mean/obj.omega_rms(row_centroid,1)];
                 ix = ix + 1;
             end
-            
+
             zcs = obj.z(centroids(:, 1));
             xcs = obj.Gen_x_HRVF(centroids(:, 2));
             rot = centroids(:, 3);
@@ -323,4 +323,3 @@ function SG_VorX(obj, u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
         end
 
 end
-

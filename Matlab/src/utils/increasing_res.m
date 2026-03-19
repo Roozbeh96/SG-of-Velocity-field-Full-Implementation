@@ -1,31 +1,83 @@
+% function increasing_res(obj, L0, factor)
+% 
+%     L = ceil(L0*obj.delta/obj.Delta_x); %Number of intervals in one delta
+%     Numrator = floor((size(obj.Gen_u_LRVF,2)-1)/L);
+% 
+%     obj.Kr = factor;
+%     obj.Gen_u_HRVF = zeros(size(obj.Gen_u_LRVF,1), obj.Kr*(L) +1, Numrator);
+%     obj.Gen_w_HRVF = zeros(size(obj.Gen_w_LRVF,1), obj.Kr*(L) +1, Numrator);
+%     obj.Gen_x_HRVF = 0:obj.Delta_x/obj.Kr: (L)*obj.Delta_x;
+% 
+%     obj.Gen_x_LRVF = 0:obj.Delta_x:(L)*obj.Delta_x;
+% 
+%     progressbar('Increasing Resolution')
+%     for S= 1:Numrator
+% 
+%         ucroped = obj.Gen_u_LRVF(:, (S-1)*L+1:(S)*L+1);
+%         wcroped = obj.Gen_w_LRVF(:, (S-1)*L+1:(S)*L+1);
+% 
+%         for r = 1:size(obj.z,2)
+%             % Interpolate the row
+%             obj.Gen_u_HRVF(r, :, S) = interp1(obj.Gen_x_LRVF, ucroped(r, :),...
+%                 obj.Gen_x_HRVF, 'makima');
+%             obj.Gen_w_HRVF(r, :, S) = interp1(obj.Gen_x_LRVF, wcroped(r, :),...
+%                 obj.Gen_x_HRVF, 'makima');
+%         end
+% 
+%         progressbar((S)/Numrator)
+%     end
+% 
+% end
+
+
 function increasing_res(obj, L0, factor)
-
-    L = ceil(L0*obj.delta/obj.Delta_x); %Number of intervals in one delta
+    L = ceil(L0*obj.delta/obj.Delta_x); 
     Numrator = floor((size(obj.Gen_u_LRVF,2)-1)/L);
-
     obj.Kr = factor;
-    obj.Gen_u_HRVF = zeros(size(obj.Gen_u_LRVF,1), obj.Kr*(L) +1, Numrator);
-    obj.Gen_w_HRVF = zeros(size(obj.Gen_w_LRVF,1), obj.Kr*(L) +1, Numrator);
-    obj.Gen_x_HRVF = 0:obj.Delta_x/obj.Kr: (L)*obj.Delta_x;
-
-    obj.Gen_x_LRVF = 0:obj.Delta_x:(L)*obj.Delta_x;
-
-    progressbar('Increasing Resolution')
-    for S= 1:Numrator
-
-        ucroped = obj.Gen_u_LRVF(:, (S-1)*L+1:(S)*L+1);
-        wcroped = obj.Gen_w_LRVF(:, (S-1)*L+1:(S)*L+1);
     
-        for r = 1:size(obj.z,2)
-            % Interpolate the row
-            obj.Gen_u_HRVF(r, :, S) = interp1(obj.Gen_x_LRVF, ucroped(r, :),...
-                obj.Gen_x_HRVF, 'makima');
-            obj.Gen_w_HRVF(r, :, S) = interp1(obj.Gen_x_LRVF, wcroped(r, :),...
-                obj.Gen_x_HRVF, 'makima');
-        end
+    % Pre-calculate coordinate vectors
+    Gen_x_HRVF = 0:obj.Delta_x/obj.Kr: (L)*obj.Delta_x;
+    Gen_x_LRVF = 0:obj.Delta_x:(L)*obj.Delta_x;
+    obj.Gen_x_HRVF = Gen_x_HRVF;
+    obj.Gen_x_LRVF = Gen_x_LRVF;
 
-        progressbar((S)/Numrator)
+    % Create temporary local variables to bypass object slicing restrictions
+    % This is necessary for parfor to work efficiently
+    LRVF_u = obj.Gen_u_LRVF;
+    LRVF_w = obj.Gen_w_LRVF;
+    num_rows = size(obj.z, 2);
+    num_cols_HR = length(Gen_x_HRVF);
+    
+    % Pre-allocate temporary output arrays
+    HRVF_u_temp = zeros(num_rows, num_cols_HR, Numrator);
+    HRVF_w_temp = zeros(num_rows, num_cols_HR, Numrator);
+
+    fprintf('Increasing Resolution in Parallel...\n');
+    
+    % Parallel loop over the frames
+    parfor S = 1:Numrator
+        % Extract local slices for this worker
+        u_slice = LRVF_u(:, (S-1)*L+1:(S)*L+1);
+        w_slice = LRVF_w(:, (S-1)*L+1:(S)*L+1);
+        
+        % Local storage for the current frame to avoid overhead
+        frame_u = zeros(num_rows, num_cols_HR);
+        frame_w = zeros(num_rows, num_cols_HR);
+
+        for r = 1:num_rows
+            % Interpolate each row
+            frame_u(r, :) = interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima');
+            frame_w(r, :) = interp1(Gen_x_LRVF, w_slice(r, :), Gen_x_HRVF, 'makima');
+        end
+        
+        % Assign the processed frame back to the temp 3D array
+        HRVF_u_temp(:, :, S) = frame_u;
+        HRVF_w_temp(:, :, S) = frame_w;
     end
 
+    % Assign back to the object
+    obj.Gen_u_HRVF = HRVF_u_temp;
+    obj.Gen_w_HRVF = HRVF_w_temp;
+    
+    fprintf('Done.\n');
 end
-

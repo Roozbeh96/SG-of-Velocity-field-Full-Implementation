@@ -58,7 +58,7 @@ resolve the shear layer.
 %}
 z_min = 1.5*ks; %[m]
 z_max = 0.25*delta; %[m]
-res_z = 0.4*lambda/5; %[m]
+res_z = 0.4*lambda/4; %[m]
 % Let us generate an object. 
 
 Gen_sample = stochastic_generation(u_tau, z_0, ks,delta, lambda, nu,z_min, z_max,...
@@ -81,13 +81,13 @@ the wind tunnel (m1) dataset is -0.4. You can tweak it w.r.t. your dataset.
 N_prof is number of profiles we want to generate.
 %}
 
-% ro_uw = -0.4;
+ro_uw = 0.33;
 % Can also use Priyadarshana and Klevicki (2004) equation:
 U_inf = 50;
 Theta = 0.15*delta;
 Re_tau = u_tau*delta/nu;
-ro_uw = -0.03*log(U_inf*Theta/(u_tau*delta)*Re_tau)+0.63;
-N_prof = 4e4;
+% ro_uw = -0.03*log(U_inf*Theta/(u_tau*delta)*Re_tau)+0.63;
+N_prof = 12e4;
 Gen_sample.SGVP(-ro_uw, N_prof)
 
 %% Stochastic Generation of Velocity Field (SGVF)
@@ -110,6 +110,7 @@ Gen_sample.SGVF(Delta_x)
 L = 1; 
 Kr = 10;
 increasing_res(Gen_sample, L, Kr);
+%% Lambda_ci field
 % In the next step, we need to find the Lambda_ci field to add the
 % vortices.
 Lambda_ci(Gen_sample)
@@ -179,7 +180,7 @@ Gen_sample.Structure_function
 production_comp(Gen_sample)
 %% Saving
 
-save('Gen_sample.mat','Gen_sample')
+save('C:\Users\ehsan010\Desktop\Gen_sample_largerstorage10.mat','Gen_sample')
 
 %% Loading
 

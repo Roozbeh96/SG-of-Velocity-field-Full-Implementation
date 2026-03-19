@@ -1,5 +1,5 @@
 %% Load Generated data
-load("Gen_sample.mat")
+load("Gen_sample_regstorage.mat")
 
 %% Read Saddoughi data(Both 10 and 50 [m/s])
 jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=10[ms]\mid-layer-u-spectra(Ue_10).json"; 
@@ -7,6 +7,19 @@ jsonStr = fileread(jsonFileName);
 jsonData = jsondecode(jsonStr);
 k1_eta_10_Sadd = str2double({jsonData.x});
 energy_10_Sadd = str2double({jsonData.y});
+
+jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=10[ms]\inner-layer-compen-u-spectra(Ue_10).json"; 
+jsonStr = fileread(jsonFileName);
+jsonData = jsondecode(jsonStr);
+k1_eta_compen_inner_10_Sadd = str2double({jsonData.x});
+compen_energy_inner_10_Sadd = str2double({jsonData.y});
+
+
+jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=10[ms]\mid-layer-compen-u-spectra(Ue_10).json"; 
+jsonStr = fileread(jsonFileName);
+jsonData = jsondecode(jsonStr);
+k1_eta_compen_mid_10_Sadd = str2double({jsonData.x});
+compen_energy_mid_10_Sadd = str2double({jsonData.y});
 
 jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=10[ms]\profile_meanvelocity.json"; 
 jsonStr = fileread(jsonFileName);
@@ -42,13 +55,26 @@ Ue_10_Sadd = 10;
 u_tau_10_Sadd = 0.465;
 z_0_10_Sadd = 3.8e-4;
 z_mid_o_delta_10_Sadd = 0.515/1.09;
-
+z_inner_o_delta_10_Sadd = 0.1/1.09;
+delta_10_Sadd = 1.09;
 %------------------------------
 jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=50[ms]\mid-layer-u-spectra(Ue_50).json"; 
 jsonStr = fileread(jsonFileName);
 jsonData = jsondecode(jsonStr);
 k1_eta_50_Sadd = str2double({jsonData.x});
 energy_50_Sadd = str2double({jsonData.y});
+
+jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=50[ms]\inner-layer-compend-u-spectra(Ue_50).json"; 
+jsonStr = fileread(jsonFileName);
+jsonData = jsondecode(jsonStr);
+k1_eta_compen_inner_50_Sadd = str2double({jsonData.x});
+compen_energy_inner_50_Sadd = str2double({jsonData.y});
+
+jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=50[ms]\mid-layer-compend-u-spectra(Ue_50).json"; 
+jsonStr = fileread(jsonFileName);
+jsonData = jsondecode(jsonStr);
+k1_eta_compen_mid_50_Sadd = str2double({jsonData.x});
+compen_energy_mid_50_Sadd = str2double({jsonData.y});
 
 jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=50[ms]\profile_meanvelocity.json"; 
 jsonStr = fileread(jsonFileName);
@@ -85,4 +111,5 @@ Ue_50_Sadd = 50;
 u_tau_50_Sadd = 2.325;
 z_0_50_Sadd = 3.8e-4;
 z_mid_o_delta_50_Sadd = 0.4/1.09;
-
+z_inner_o_delta_50_Sadd = 0.1/1.09;
+delta_50_Sadd = 1.09;

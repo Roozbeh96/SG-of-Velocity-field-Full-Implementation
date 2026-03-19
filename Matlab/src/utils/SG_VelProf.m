@@ -26,7 +26,9 @@ function [Gen_u_prof, Gen_w_prof, log_data] = SG_VelProf(obj)
                  /492F3CD03C8C3E7ED306E9117B848B5E
                 %}
                 hm_i = z_i*exp(-3.59*(z_i/obj.delta)^0.91+1*sqrt(2)*erfinv(2*rand_h(counter_1)-1));
-                um_i = obj.u_tau*(1/kappa*log((z_i+hm_i/2)/obj.z_0)+2*sqrt(2)*erfinv(2*rand_u(counter_1)-1));
+                % std_uu_plus = 2;
+                std_uu_plus = sqrt(-1.09*log((z_i+hm_i/2)/obj.delta)+1.51);
+                um_i = obj.u_tau*(1/kappa*log((z_i+hm_i/2)/obj.z_0)+std_uu_plus*sqrt(2)*erfinv(2*rand_u(counter_1)-1));
                 wm_i = obj.u_tau*(0+0.85*sqrt(2)*erfinv(2*rand_w(counter_1)-1));
         
                 row = find(obj.z > z_i + hm_i,1,'first');
