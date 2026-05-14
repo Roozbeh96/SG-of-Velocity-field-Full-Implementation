@@ -8,8 +8,8 @@ function str_func(obj)
     uprime = obj.Gen_u_HRVF - mean(obj.Gen_u_HRVF,3);
     concat_uprime = reshape(uprime,size(uprime, 1), []);
     dx = obj.Gen_x_HRVF(2) - obj.Gen_x_HRVF(1);
-    win20del = ceil(20*obj.delta/dx);
-    Numb_frame = floor(size(concat_uprime,2)/win20del);
+    win15del = ceil(15*obj.delta/dx);
+    Numb_frame = floor(size(concat_uprime,2)/win15del);
     
     % --- LOGARITHMIC SKIP SETUP ---
     % Define how many points you want in your log scale (e.g., 50 or 100 points)
@@ -17,9 +17,9 @@ function str_func(obj)
     
     % Generate unique, rounded integer steps logarithmically from 0 to win12del
     % We do logspace from 0 to log10(win12del), round it, and add 0.
-    r_indices = unique([0, round(logspace(0, log10(win20del), num_log_points))]);
+    r_indices = unique([0, round(logspace(0, log10(win15del), num_log_points))]);
     % Ensure it doesn't accidentally exceed bounds
-    r_indices(r_indices > win20del) = []; 
+    r_indices(r_indices > win15del) = []; 
     num_r = length(r_indices);
     % ------------------------------
 
@@ -41,8 +41,8 @@ function str_func(obj)
     Z = [ind_i, ind_ii, ind_iii, ind_iv, ind_v];
     
     for S = 1:Numb_frame
-        frame_start = (S-1)*win20del + 1;
-        frame_end   = S*win20del + 1;
+        frame_start = (S-1)*win15del + 1;
+        frame_end   = S*win15del + 1;
         
         for elev = Z
             % Loop through our log-spaced indices instead of every integer
