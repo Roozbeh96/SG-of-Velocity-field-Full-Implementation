@@ -58,7 +58,7 @@ resolve the shear layer.
 %}
 z_min = 1.5*ks; %[m]
 z_max = 0.25*delta; %[m]
-res_z = 0.4*lambda/4; %[m]
+res_z = 0.4*lambda/6; %[m]
 % Let us generate an object. 
 
 Gen_sample = stochastic_generation(u_tau, z_0, ks,delta, lambda, nu,z_min, z_max,...
@@ -145,10 +145,10 @@ Gen_sample.SGVorX(u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
     omega_near_deciles, u_wOu_tau_near_deciles, r_wOlambda_T_near_deciles,...
     omega_far_deciles, u_wOu_tau_far_deciles, r_wOlambda_T_far_deciles)
 
-%% computing std of the filter
+%% computing std of the small-scale filter
 
 w0 = 1e-5;
-li = 0.4*Gen_sample.lambda;
+li = 0.4*Gen_sample.lambda;%0.4
 f = @(s) 2*(-2*s.*log(2*w0*pi*s))^0.5 - li;
 
 % Solve using fzero with an initial guess
@@ -162,13 +162,13 @@ disp(sol)
 % li should be equal to 0.4*lambda
 % li = 2*(-2*sol*log(2*pi*w0*sol))^0.5;
 
-Sigma = [sol 0;...
+Sigma_small = [sol 0;...
     0 sol];
 
-%% Passing the filter
+%% Passing the small-scale filter
 kern_xsize = 0.4;
 kern_ysize = 0.4;
-Gen_sample.Gauss_kernel(kern_xsize, kern_ysize, Sigma)
+Gen_sample.Gauss_kernel(kern_xsize, kern_ysize, Sigma_small)
 
 %% Spectral and structure function analysis
 
@@ -180,8 +180,10 @@ Gen_sample.Structure_function
 production_comp(Gen_sample)
 %% Saving
 
-save('C:\Users\ehsan010\Desktop\Gen_sample_largerstorage10.mat','Gen_sample')
+save('C:\Users\ehsan010\Desktop\Gen_sample_largerstorage10_TPmodel(3ks).mat','Gen_sample')
 
-%% Loading
 
-load('Gen_sample.mat');
+%%
+
+% Gen_sample.Gen_u_HRVF(:,:,1:199) = [];
+% Gen_sample.Gen_w_HRVF(:,:,1:199) = [];

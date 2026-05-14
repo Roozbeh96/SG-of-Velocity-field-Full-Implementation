@@ -1,5 +1,7 @@
 %% Load Generated data
-load("Gen_sample_regstorage.mat")
+
+load("C:\Users\ehsan010\Desktop\Gen_sample_largerstorage10_TPmodel(Fourierfilter).mat")
+
 
 %% Read Saddoughi data(Both 10 and 50 [m/s])
 jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=10[ms]\mid-layer-u-spectra(Ue_10).json"; 

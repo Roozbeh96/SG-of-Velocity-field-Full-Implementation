@@ -6,7 +6,7 @@ function [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
     % Generating corrolated random numbers for radius and max-azimuthal
     % velocity. First we generate for near wall then generate for far from
     % the wall.
-
+    fprintf('Generation of Vortices...\n');
     obj.ro_r_u_omega_near_wall = 0.4;
     n = 1e7; % Number of samples
     repro_numb = 97;
