@@ -90,6 +90,14 @@ function increasing_res(obj, L0, factor)
     control_v = [1, 1, min_val, 1, 1];
     mask = interp1(control_k, control_v, k_abs, 'linear');
 
+    % figure
+    % plot(k_abs*0.055e-3,mask,'k-')
+    % ylabel('$\Phi(k_{1})$','VerticalAlignment','bottom','HorizontalAlignment','center',...
+    % 'Interpreter','latex');
+    % xlabel('$k_{1}\eta$','Interpreter','latex');
+    % set(gca,'TickLabelInterpreter','latex','XGrid','on','XMinorTick','on',...
+    % 'XScale','log','YGrid','on');
+
     % Parallel loop over the frames
     parfor S = 1:Numrator
         % Extract local slices for this worker

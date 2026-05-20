@@ -10,8 +10,8 @@ classdef stochastic_generation < dynamicprops
             Lambda_ci, Lambda_cirms,omega, omega_rms,...
             ro_r_u_omega_near_wall, ro_r_u_omega_far_wall,...
             prograde_VorX_data, retrograde_VorX_data,...
-            PowSpecDen_k, wavenumb, epsilon_spec, eta_spec,...
-            D11, r11, epsilon_str, eta_str, cdf_omega, mean_omega,...
+            E11, k1, E22, E12, epsilon_E11, eta_E11,...
+            D11, r11, epsilon_D11, eta_D11, D22, cdf_omega, mean_omega,...
             production, eta_prod
     end
     
@@ -38,13 +38,13 @@ classdef stochastic_generation < dynamicprops
 
             
         end
-        function SGVF(obj, Delta_x)
+        function SGVF(obj, Delta_x, M)
             %In this function, we try to reorganize the profiles generated
             %in SGVP, to have correlated velocity field.
             %   Detailed explanation goes here
             obj.Delta_x = Delta_x;
             [obj.Gen_u_LRVF, obj.Gen_w_LRVF, obj.hist_corr] =...
-                SG_VelField(obj);
+                SG_VelField(obj, M);
 
             
         end
@@ -60,12 +60,24 @@ classdef stochastic_generation < dynamicprops
                 omega_far_deciles, u_wOu_tau_far_deciles, r_wOlambda_T_far_deciles);
             
         end
-        function Structure_function(obj)
-            str_func(obj)
+        function Structure_function_D11(obj)
+            str_func_D11(obj)
             
         end
-        function Spectral_analysis(obj)
-            spec_analysis(obj) 
+        function Structure_function_D22(obj)
+            str_func_D22(obj)
+            
+        end
+        function Spectral_analysis_E11(obj)
+            spec_analysis_E11(obj) 
+
+        end
+        function Spectral_analysis_E22(obj)
+            spec_analysis_E22(obj) 
+
+        end
+        function Spectral_analysis_E12(obj)
+            spec_analysis_E12(obj) 
 
         end
         function Gauss_kernel(obj,kern_xsize, kern_ysize, Sigma)

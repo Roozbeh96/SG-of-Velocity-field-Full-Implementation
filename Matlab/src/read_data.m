@@ -66,11 +66,24 @@ jsonData = jsondecode(jsonStr);
 k1_eta_50_Sadd = str2double({jsonData.x});
 energy_50_Sadd = str2double({jsonData.y});
 
+jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=50[ms]\inner-layer-uw-cospectra(Ue_50).json"; 
+jsonStr = fileread(jsonFileName);
+jsonData = jsondecode(jsonStr);
+k1_eps_S_50_Sadd = str2double({jsonData.x});
+E12_50_Sadd = str2double({jsonData.y});
+
+
 jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=50[ms]\inner-layer-compend-u-spectra(Ue_50).json"; 
 jsonStr = fileread(jsonFileName);
 jsonData = jsondecode(jsonStr);
 k1_eta_compen_inner_50_Sadd = str2double({jsonData.x});
 compen_energy_inner_50_Sadd = str2double({jsonData.y});
+
+jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=50[ms]\inner-layer-compend-w-spectra(Ue_50).json"; 
+jsonStr = fileread(jsonFileName);
+jsonData = jsondecode(jsonStr);
+k1_eta_E22_compen_inner_50_Sadd = str2double({jsonData.x});
+compen_E22_inner_50_Sadd = str2double({jsonData.y});
 
 jsonFileName = "G:\My Drive\Research\SG-of-Velocity-field-Full-Implementation-\Matlab\src\Data\Saddoughi\Ue=50[ms]\mid-layer-compend-u-spectra(Ue_50).json"; 
 jsonStr = fileread(jsonFileName);

@@ -1,4 +1,4 @@
-function str_func(obj)
+function str_func_D11(obj)
     %{
     More info about how to compute the structure function in:
     https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/
@@ -27,10 +27,10 @@ function str_func(obj)
     obj.D11 = zeros(size(concat_uprime,1), num_r, Numb_frame);
     obj.r11 = dx * r_indices; % Vectorized calculation of physical distances
     
-    obj.epsilon_str = zeros(size(concat_uprime,1),Numb_frame);
-    obj.eta_str = zeros(size(concat_uprime,1),Numb_frame);
+    obj.epsilon_D11 = zeros(size(concat_uprime,1),Numb_frame);
+    obj.eta_D11 = zeros(size(concat_uprime,1),Numb_frame);
     
-    progressbar('Computing Structure Function')
+    progressbar('Computing Structure Function D11')
     
     [~, ind_i]   = find(obj.z/obj.delta >= 0.015, 1, 'first');
     [~, ind_ii]  = find(obj.z/obj.delta >= 0.05,   1, 'first');
@@ -58,15 +58,15 @@ function str_func(obj)
         % We ignore the first point (r=0) by indexing from 2 onwards
         [max_val] = max(obj.D11(:, 2:end, S) .* (obj.r11(2:end).^(-2/3)), [], 2);
         
-        obj.epsilon_str(:,S) = (2./max_val).^(-3/2);
-        obj.eta_str(:,S) = (obj.nu^3 ./ obj.epsilon_str(:,S)).^0.25;
+        obj.epsilon_D11(:,S) = ((2.3)./max_val).^(-3/2);
+        obj.eta_D11(:,S) = (obj.nu^3 ./ obj.epsilon_D11(:,S)).^0.25;
         progressbar(S/Numb_frame)
     end
 end
 
 
 
-% function str_func(obj)
+% function str_func_D11(obj)
 %     % --- Pre-processing (Same as before) ---
 %     uprime = obj.Gen_u_HRVF - mean(obj.Gen_u_HRVF, 3);
 %     concat_uprime = reshape(uprime, size(uprime, 1), []);
@@ -131,8 +131,8 @@ end
 %     % --- Post-processing: Assign back to object ---
 %     obj.r11 = r11_local;
 %     obj.D11 = D11_local;
-%     obj.epsilon_str = eps_local;
-%     obj.eta_str = eta_local;
+%     obj.epsilon_D11 = eps_local;
+%     obj.eta_D11 = eta_local;
 % 
 %     fprintf('Computation Complete.\n');
 % end

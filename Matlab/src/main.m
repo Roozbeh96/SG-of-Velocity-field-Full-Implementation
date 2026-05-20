@@ -97,7 +97,8 @@ Gen_sample.SGVP(-ro_uw, N_prof)
     between the velocity profiles which here is lambda. 
 %}
 Delta_x = lambda;
-Gen_sample.SGVF(Delta_x)
+M = ceil(100*sqrt(Gen_sample.u_tau*Gen_sample.delta/Gen_sample.nu));
+Gen_sample.SGVF(Delta_x, M)
 
 %% Increasing the resolution of the SGVF and compute the lambda_ci field
 %{
@@ -133,7 +134,7 @@ Lambda_ci(Gen_sample)
 %{
     At this step, we find the c.d.f. of the omega distribution in the
     non_zero lambda_ci regions. The output of this step is used in decile
-    matching process.
+    matching process for adaptive selection of vortices.
 %}
 cdf_omega(Gen_sample)
 
@@ -172,15 +173,18 @@ Gen_sample.Gauss_kernel(kern_xsize, kern_ysize, Sigma_small)
 
 %% Spectral and structure function analysis
 
-Gen_sample.Spectral_analysis
-Gen_sample.Structure_function
+Gen_sample.Spectral_analysis_E11
+Gen_sample.Spectral_analysis_E22
+Gen_sample.Spectral_analysis_E12
+Gen_sample.Structure_function_D11
+Gen_sample.Structure_function_D22
 
 %% Computing production
 
 production_comp(Gen_sample)
 %% Saving
 
-save('C:\Users\ehsan010\Desktop\Gen_sample_largerstorage10_TPmodel(3ks).mat','Gen_sample')
+save('C:\Users\ehsan010\Desktop\Gen_sample_largerstorage10_TPmodel(Fourierfilter).mat','Gen_sample')
 
 
 %%

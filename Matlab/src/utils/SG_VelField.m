@@ -1,4 +1,4 @@
-% function [Gen_u_prof_reorg, Gen_w_prof_reorg, hist_corr] = SG_VelField(obj)
+% function [Gen_u_prof_reorg, Gen_w_prof_reorg, hist_corr] = SG_VelField(obj, M)
 % %SG_VELFIELD Summary of this function goes here
 % %   Detailed explanation goes here
 %     %If you do not want to smooth the shear layer in the generated
@@ -10,7 +10,7 @@
 %     %{
 %       Size of storage is Reynold's number dependent. 
 %     %}
-%     NP_storage=10*ceil(10*sqrt(obj.u_tau*obj.delta/obj.nu));
+%     NP_storage = M;
 %     size_reorg_VField=size(obj.Gen_u_prof,2)-NP_storage;
 % 
 % 
@@ -110,7 +110,7 @@
 % end
 
 
-function [Gen_u_prof_reorg, Gen_w_prof_reorg, hist_corr] = SG_VelField(obj)
+function [Gen_u_prof_reorg, Gen_w_prof_reorg, hist_corr] = SG_VelField(obj, M)
 %SG_VELFIELD Summary of this function goes here
 %   Detailed explanation goes here
     %If you do not want to smooth the shear layer in the generated
@@ -122,7 +122,7 @@ function [Gen_u_prof_reorg, Gen_w_prof_reorg, hist_corr] = SG_VelField(obj)
     %{
       Size of storage is Reynold's number dependent. 
     %}
-    NP_storage=10*ceil(10*sqrt(obj.u_tau*obj.delta/obj.nu));
+    NP_storage = M;
     size_reorg_VField=size(obj.Gen_u_prof,2)-NP_storage;
 
 
