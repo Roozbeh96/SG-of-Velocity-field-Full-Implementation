@@ -25,28 +25,19 @@ root = fileparts(mfilename('fullpath'));  % project_root
 addpath(fullfile(root, 'utils')); %addpath for using functions in utils.
 
 %{
-The physical properties of the wind tunnel (m1) are used. You can find 
-details about this dataset in the papers.
+The physical properties of the Saddoughi High-velocity(50[m/s]) are used. 
+You can find details about this dataset in the papers.
 %}
+
 u_tau = 2.325; %[m/s]
-z_0 = 3.8e-4; %[m]
+z_0 = 4.0e-4; %[m];3.8e-4
 kappa = 0.39;
 AFR = 8.5;
 ks = z_0/exp(-kappa*AFR);
 delta = 1.09; %[m]
-lambda = 0.007; %[m]
+lambda_T = 0.007; %[m]
 nu = 1.57e-5; %[m^2/s]
 
-%{
-u_tau = 0.39; %[m/s]
-z_0 = 6.2e-4; %[m]
-kappa = 0.39;
-AFR = 8.5;
-ks = z_0/exp(-kappa*AFR);
-delta = 0.4; %[m]
-lambda = 0.01; %[m]
-nu = 1.57e-5; %[m^2/s]
-%}
 
 %{
 Define the wall-normal extent of the generated profiles which covers
@@ -56,12 +47,12 @@ The wall-normal resolution of profiles is selected 0.4*lambda/6. Since
 average thickness of shear layer is 0.4*lambda, I divided it into 6 to
 resolve the shear layer.
 %}
-z_min = 1.5*ks; %[m]
+z_min = 1.0*ks; %[m]
 z_max = 0.25*delta; %[m]
-res_z = 0.4*lambda/6; %[m]
+res_z = 0.4*lambda_T/6; %[m]
 % Let us generate an object. 
 
-Gen_sample = stochastic_generation(u_tau, z_0, ks,delta, lambda, nu,z_min, z_max,...
+Gen_sample = stochastic_generation(u_tau, z_0, ks,delta, lambda_T, nu,z_min, z_max,...
     res_z);
 
 %% Stochastic Generation of Velocity Profiles (SGVP)
@@ -81,14 +72,14 @@ the wind tunnel (m1) dataset is -0.4. You can tweak it w.r.t. your dataset.
 N_prof is number of profiles we want to generate.
 %}
 
-ro_uw = 0.33;
+ro_uw = -0.33;
 % Can also use Priyadarshana and Klevicki (2004) equation:
 U_inf = 50;
 Theta = 0.15*delta;
 Re_tau = u_tau*delta/nu;
 % ro_uw = -0.03*log(U_inf*Theta/(u_tau*delta)*Re_tau)+0.63;
 N_prof = 12e4;
-Gen_sample.SGVP(-ro_uw, N_prof)
+Gen_sample.SGVP(ro_uw, N_prof)
 
 %% Stochastic Generation of Velocity Field (SGVF)
 
@@ -96,7 +87,7 @@ Gen_sample.SGVP(-ro_uw, N_prof)
     For the generated velocity field, you need to prescribe the distance
     between the velocity profiles which here is lambda. 
 %}
-Delta_x = lambda;
+Delta_x = lambda_T;
 M = ceil(100*sqrt(Gen_sample.u_tau*Gen_sample.delta/Gen_sample.nu));
 Gen_sample.SGVF(Delta_x, M)
 
@@ -184,10 +175,28 @@ Gen_sample.Structure_function_D22
 production_comp(Gen_sample)
 %% Saving
 
-save('C:\Users\ehsan010\Desktop\Gen_sample_largerstorage10_TPmodel(Fourierfilter).mat','Gen_sample')
+save('C:\Users\ehsan010\Desktop\Gen_sample_largerstorage10_TPmodel(newz_0andz_start1ks).mat','Gen_sample')
 
 
-%%
+%% Selective saving
 
-% Gen_sample.Gen_u_HRVF(:,:,1:199) = [];
-% Gen_sample.Gen_w_HRVF(:,:,1:199) = [];
+% x = Gen_sample.Gen_x_HRVF;
+% z =Gen_sample.z;
+% u = Gen_sample.Gen_u_HRVF;
+% w = Gen_sample.Gen_w_HRVF;
+% delta = Gen_sample.delta;
+% u_tau = Gen_sample.u_tau;
+% z_0 = Gen_sample.z_0;
+% lambda_T = Gen_sample.lambda;
+% nu = Gen_sample.nu;
+% 
+% save('C:\Users\ehsan010\Desktop\SGHRVFVorX_Saddoughi.mat', ...
+%     'x', ...
+%     'z', ...
+%     'u', ...
+%     'w', ...
+%     'delta', ...
+%     'u_tau', ...
+%     'z_0', ...
+%     'lambda_T', ...
+%     'nu')

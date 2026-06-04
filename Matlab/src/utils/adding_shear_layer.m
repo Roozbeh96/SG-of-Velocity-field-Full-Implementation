@@ -7,7 +7,7 @@ function obj = adding_shear_layer(obj)
  800D97E60609F4FE4D92847CCDB1C7A0#article
 %}
 
-    delta_omega = 0.4*obj.lambda;
+    delta_omega = 0.4*obj.lambda_T;
     theta = linspace(0, pi/2, 25);
     % One sample of step-like velocity profile. You can plot it before and
     % after smoothing shear-layer.

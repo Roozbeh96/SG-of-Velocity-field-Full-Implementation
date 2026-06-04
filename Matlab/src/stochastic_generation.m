@@ -3,7 +3,7 @@ classdef stochastic_generation < dynamicprops
     %and addition. The properties of the object is included as well.
     
     properties
-        u_tau, z_0, ks, delta, lambda, nu, ro_uw, N_prof, z, Delta_x,...
+        u_tau, z_0, ks, delta, lambda_T, nu, ro_uw, N_prof, z, Delta_x,...
             Gen_u_prof, Gen_w_prof, log_data_SGVP,...
             Gen_u_LRVF, Gen_w_LRVF, Gen_x_LRVF, hist_corr,...
             Kr, Gen_u_HRVF, Gen_w_HRVF, Gen_x_HRVF,...
@@ -16,14 +16,14 @@ classdef stochastic_generation < dynamicprops
     end
     
     methods
-        function obj = stochastic_generation(u_tau, z_0, ks,delta, lambda, nu, ...
+        function obj = stochastic_generation(u_tau, z_0, ks,delta, lambda_T, nu, ...
                 z_min, z_max, res_z)
             %STOCHASTIC_GENERATION Construct an instance of this class
             obj.u_tau = u_tau;
             obj.z_0 = z_0;
             obj.ks = ks;
             obj.delta = delta;
-            obj.lambda = lambda;
+            obj.lambda_T = lambda_T;
             obj.nu = nu;
             obj.z = z_min:res_z:z_max;
         end

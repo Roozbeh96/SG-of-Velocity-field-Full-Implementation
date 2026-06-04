@@ -111,13 +111,17 @@ function increasing_res(obj, L0, factor)
         for r = 1:num_rows
             % Interpolate each row
             % frame_u(r, :) = interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima');
-            % frame_u(r, :) = smoothdata(interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima'),'gaussian',12);
+            % frame_u(r, :) = smoothdata(interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima'),'gaussian',50);
 
             U_hat = fft(interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima'));
             U_filtered = U_hat .* mask;
             frame_u(r, :) = real(ifft(U_filtered));
 
             frame_w(r, :) = interp1(Gen_x_LRVF, w_slice(r, :), Gen_x_HRVF, 'makima');
+            
+            % W_hat = fft(interp1(Gen_x_LRVF, w_slice(r, :), Gen_x_HRVF, 'makima'));
+            % W_filtered = W_hat .* mask;
+            % frame_w(r, :) = real(ifft(W_filtered));
         end
 
         % Assign the processed frame back to the temp 3D array
