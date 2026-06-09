@@ -30,7 +30,7 @@ You can find details about this dataset in the papers.
 %}
 
 u_tau = 2.325; %[m/s]
-z_0 = 4.0e-4; %[m];3.8e-4
+z_0 = 3.8e-4; %[m];3.8e-4
 kappa = 0.39;
 AFR = 8.5;
 ks = z_0/exp(-kappa*AFR);
@@ -47,7 +47,7 @@ The wall-normal resolution of profiles is selected 0.4*lambda/6. Since
 average thickness of shear layer is 0.4*lambda, I divided it into 6 to
 resolve the shear layer.
 %}
-z_min = 1.0*ks; %[m]
+z_min = 1.5*ks; %[m]
 z_max = 0.25*delta; %[m]
 res_z = 0.4*lambda_T/6; %[m]
 % Let us generate an object. 
@@ -75,20 +75,22 @@ N_prof is number of profiles we want to generate.
 ro_uw = -0.33;
 % Can also use Priyadarshana and Klevicki (2004) equation:
 U_inf = 50;
-Theta = 0.15*delta;
+n = 4;
+Theta = delta*n/((n+1)*(n+2));
 Re_tau = u_tau*delta/nu;
 % ro_uw = -0.03*log(U_inf*Theta/(u_tau*delta)*Re_tau)+0.63;
-N_prof = 12e4;
+N_prof = 15e4;
 Gen_sample.SGVP(ro_uw, N_prof)
 
 %% Stochastic Generation of Velocity Field (SGVF)
 
 %{ 
     For the generated velocity field, you need to prescribe the distance
-    between the velocity profiles which here is lambda. 
+    between the velocity profiles which here is lambda_T. The storage size M
+    is formulated through a Re dependent equation.
 %}
 Delta_x = lambda_T;
-M = ceil(100*sqrt(Gen_sample.u_tau*Gen_sample.delta/Gen_sample.nu));
+M = ceil(80*sqrt(Gen_sample.u_tau*Gen_sample.delta/Gen_sample.nu));
 Gen_sample.SGVF(Delta_x, M)
 
 %% Increasing the resolution of the SGVF and compute the lambda_ci field
@@ -121,7 +123,7 @@ Lambda_ci(Gen_sample)
     omega_far_deciles, u_wOu_tau_far_deciles, r_wOlambda_T_far_deciles] = VorX_generator(Gen_sample);
 
 
-%% Find the cdf of the omega distribution
+%% Find the c.d.f. of the omega distribution
 %{
     At this step, we find the c.d.f. of the omega distribution in the
     non_zero lambda_ci regions. The output of this step is used in decile
@@ -140,7 +142,7 @@ Gen_sample.SGVorX(u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
 %% computing std of the small-scale filter
 
 w0 = 1e-5;
-li = 0.4*Gen_sample.lambda;%0.4
+li = 0.4*Gen_sample.lambda_T;%0.4
 f = @(s) 2*(-2*s.*log(2*w0*pi*s))^0.5 - li;
 
 % Solve using fzero with an initial guess
@@ -175,7 +177,7 @@ Gen_sample.Structure_function_D22
 production_comp(Gen_sample)
 %% Saving
 
-save('C:\Users\ehsan010\Desktop\Gen_sample_largerstorage10_TPmodel(newz_0andz_start1ks).mat','Gen_sample')
+save('C:\Users\ehsan010\Desktop\Gen_sample_largerstorage80_TPmodel.mat','Gen_sample')
 
 
 %% Selective saving
@@ -200,3 +202,6 @@ save('C:\Users\ehsan010\Desktop\Gen_sample_largerstorage10_TPmodel(newz_0andz_st
 %     'z_0', ...
 %     'lambda_T', ...
 %     'nu')
+
+% Gen_sample.Gen_u_HRVF(:,:,1:149) = [];
+% Gen_sample.Gen_w_HRVF(:,:,1:149) = [];

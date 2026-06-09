@@ -11,7 +11,7 @@ function [pr, rt,r_wOlambda_T,u_wOu_tau] = Lambdaci_VorX(obj,i,...
     omega_samples = omega_deciles{percentile_rank};
     randomIndex = randi(size(omega_samples,1));
     
-    r_omega = r_wOlambda_T_deciles{percentile_rank}(randomIndex)*obj.lambda;
+    r_omega = r_wOlambda_T_deciles{percentile_rank}(randomIndex)*obj.lambda_T;
     u_omega = u_wOu_tau_deciles{percentile_rank}(randomIndex)*obj.u_tau;
     Gama=2*pi*u_omega*r_omega/(1-exp(-1));
 

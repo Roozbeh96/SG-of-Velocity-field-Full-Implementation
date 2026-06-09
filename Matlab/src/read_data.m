@@ -1,6 +1,6 @@
 %% Load Generated data
 
-load("C:\Users\ehsan010\Desktop\Gen_sample_largerstorage10_TPmodel(u_Fourierfilter).mat")
+load("C:\Users\ehsan010\Desktop\Gen_sample_largerstorage150_TPmodel.mat")
 
 
 %% Read Saddoughi data(Both 10 and 50 [m/s])

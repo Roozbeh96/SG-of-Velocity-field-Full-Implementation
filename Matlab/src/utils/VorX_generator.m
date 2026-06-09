@@ -124,10 +124,10 @@ function [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
 
 
     % Find the omega of the generated vortices
-    omega_near = u_wOu_tau_near./r_wOlambda_T_near*obj.u_tau/obj.lambda;
+    omega_near = u_wOu_tau_near./r_wOlambda_T_near*obj.u_tau/obj.lambda_T;
     omega_near_norm= omega_near/std(omega_near,0,1);
 
-    omega_far = u_wOu_tau_far./r_wOlambda_T_far*obj.u_tau/obj.lambda;
+    omega_far = u_wOu_tau_far./r_wOlambda_T_far*obj.u_tau/obj.lambda_T;
     omega_far_norm= omega_far/std(omega_far,0,1);
 
     % Dividing the generated vortices into deciles for the matter of

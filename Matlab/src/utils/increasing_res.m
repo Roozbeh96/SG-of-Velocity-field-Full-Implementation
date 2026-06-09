@@ -76,9 +76,9 @@ function increasing_res(obj, L0, factor)
 
     fprintf('Increasing Resolution in Parallel...\n');
 
-    k_start = 134;%36;  
-    k_mid   = 254;   
-    k_end   = 481;    
+    k_start = 90;%36;  
+    k_mid   = 200;   
+    k_end   = 418;    
     min_val = 0.80;
 
     N = length(obj.Gen_x_HRVF);
@@ -110,12 +110,12 @@ function increasing_res(obj, L0, factor)
 
         for r = 1:num_rows
             % Interpolate each row
-            % frame_u(r, :) = interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima');
+            frame_u(r, :) = interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima');
             % frame_u(r, :) = smoothdata(interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima'),'gaussian',50);
 
-            U_hat = fft(interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima'));
-            U_filtered = U_hat .* mask;
-            frame_u(r, :) = real(ifft(U_filtered));
+            % U_hat = fft(interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima'));
+            % U_filtered = U_hat .* mask;
+            % frame_u(r, :) = real(ifft(U_filtered));
 
             frame_w(r, :) = interp1(Gen_x_LRVF, w_slice(r, :), Gen_x_HRVF, 'makima');
             
@@ -132,6 +132,8 @@ function increasing_res(obj, L0, factor)
     % Assign back to the object
     obj.Gen_u_HRVF = HRVF_u_temp;
     obj.Gen_w_HRVF = HRVF_w_temp;
+    obj.Gen_u_HRVF(:,:,1:149) = [];
+    obj.Gen_w_HRVF(:,:,1:149) = [];
 
     fprintf('Done.\n');
 end

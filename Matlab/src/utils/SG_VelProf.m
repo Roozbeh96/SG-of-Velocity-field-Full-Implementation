@@ -119,7 +119,7 @@ function [Gen_u_prof, Gen_w_prof, log_data] = SG_VelProf(obj)
                 %     counter_1 = counter_1+1;
                 %     continue
                 % end
-                
+
                 row = find(obj.z > z_i + hm_i,1,'first');
                 std_uu_plus = sqrt(-A*log((z_i+hm_i/2)/obj.delta)+B);
                 mean_u_plus = 1/kappa*log((z_i+hm_i/2)/obj.z_0);
@@ -136,10 +136,10 @@ function [Gen_u_prof, Gen_w_prof, log_data] = SG_VelProf(obj)
                     end
                     continue
                 end
-                
+
                 um_i = obj.u_tau*(mean_u_plus+std_uu_plus*sqrt(2)*erfinv(2*rand_u(counter_1)-1));
                 wm_i = obj.u_tau*(0+0.85*sqrt(2)*erfinv(2*rand_w(counter_1)-1));
-                
+
                 if row
                     log_data{prof_num}{counter_2} = ...
                         dictionary(["hm_i[m]","zm_i[m]","um_i[m/s]","wm_i[m/s]"],...
