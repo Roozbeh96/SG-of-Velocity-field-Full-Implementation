@@ -75,10 +75,10 @@ function increasing_res(obj, L0, factor)
     HRVF_w_temp = zeros(num_rows, num_cols_HR, Numrator);
 
     fprintf('Increasing Resolution in Parallel...\n');
-
-    k_start = 90;%36;  
-    k_mid   = 200;   
-    k_end   = 418;    
+    
+    k_start = round(2*pi/(10*obj.lambda_T));  
+    k_mid   = round(2*pi/(5*obj.lambda_T));   
+    k_end   = round(2*pi/(2*obj.lambda_T));    
     min_val = 0.80;
 
     N = length(obj.Gen_x_HRVF);
@@ -91,7 +91,9 @@ function increasing_res(obj, L0, factor)
     mask = interp1(control_k, control_v, k_abs, 'linear');
 
     % figure
-    % plot(k_abs*0.055e-3,mask,'k-')
+    % % eta_sadd at z/\delta = 0.09 is 0.055e-3
+    % eta_Sadd = 0.055e-3;
+    % plot(k_abs*eta_Sadd,mask,'k-')
     % ylabel('$\Phi(k_{1})$','VerticalAlignment','bottom','HorizontalAlignment','center',...
     % 'Interpreter','latex');
     % xlabel('$k_{1}\eta$','Interpreter','latex');
@@ -110,18 +112,18 @@ function increasing_res(obj, L0, factor)
 
         for r = 1:num_rows
             % Interpolate each row
-            frame_u(r, :) = interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima');
+            % frame_u(r, :) = interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima');
             % frame_u(r, :) = smoothdata(interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima'),'gaussian',50);
 
-            % U_hat = fft(interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima'));
-            % U_filtered = U_hat .* mask;
-            % frame_u(r, :) = real(ifft(U_filtered));
+            U_hat = fft(interp1(Gen_x_LRVF, u_slice(r, :), Gen_x_HRVF, 'makima'));
+            U_filtered = U_hat .* mask;
+            frame_u(r, :) = real(ifft(U_filtered));
 
-            frame_w(r, :) = interp1(Gen_x_LRVF, w_slice(r, :), Gen_x_HRVF, 'makima');
+            % frame_w(r, :) = interp1(Gen_x_LRVF, w_slice(r, :), Gen_x_HRVF, 'makima');
             
-            % W_hat = fft(interp1(Gen_x_LRVF, w_slice(r, :), Gen_x_HRVF, 'makima'));
-            % W_filtered = W_hat .* mask;
-            % frame_w(r, :) = real(ifft(W_filtered));
+            W_hat = fft(interp1(Gen_x_LRVF, w_slice(r, :), Gen_x_HRVF, 'makima'));
+            W_filtered = W_hat .* mask;
+            frame_w(r, :) = real(ifft(W_filtered));
         end
 
         % Assign the processed frame back to the temp 3D array
@@ -132,8 +134,8 @@ function increasing_res(obj, L0, factor)
     % Assign back to the object
     obj.Gen_u_HRVF = HRVF_u_temp;
     obj.Gen_w_HRVF = HRVF_w_temp;
-    obj.Gen_u_HRVF(:,:,1:149) = [];
-    obj.Gen_w_HRVF(:,:,1:149) = [];
+    obj.Gen_u_HRVF(:,:,1:round(0.2*size(obj.Gen_u_HRVF,3))) = [];
+    obj.Gen_w_HRVF(:,:,1:round(0.2*size(obj.Gen_w_HRVF,3))) = [];
 
     fprintf('Done.\n');
 end

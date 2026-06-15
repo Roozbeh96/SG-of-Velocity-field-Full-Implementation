@@ -6,6 +6,8 @@ __pycache__/
 *.mat
 *.pptx
 Figure
+Overleaffigures
+Graphical Abs
 
 # C extensions
 *.so

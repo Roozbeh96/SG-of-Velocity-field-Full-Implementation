@@ -195,7 +195,7 @@ plot(Gen_sample.z/Gen_sample.delta,...
 
 plot(Gen_sample.z/Gen_sample.delta,...
     var(Gen_sample.Gen_u_LRVF(:,1:end),0,2)/Gen_sample.u_tau^2,...
-    'Color',[0,1,1],'linewidth',2)
+    'Color',[0,1,0],'linewidth',2)
 
 % ylim([-1 10])
 % xlim([1e-3 2])
@@ -567,7 +567,7 @@ loglog(k1_eta_compen_mid_10_Sadd,compen_energy_mid_10_Sadd,'LineStyle','none','L
     [0.00,0.00,1.00],'Marker','square','MarkerSize',8,'MarkerEdgeColor',[0,0,0],...
     'MarkerFaceColor',[0.00,0.00,1.00])
 
-numPoints = 1000; % Adjust as needed
+numPoints = 50; % Adjust as needed
 logIndices = unique(round(logspace(0.0, log10(size(Gen_sample.k1, 1)), numPoints)));
 
 %------------- eta and epsilon of structure function
@@ -808,7 +808,7 @@ figure
 set(gcf,'Position',[835,479,767,426])
 axes('Position',[0.084635416666667,0.129107981220657,0.895833333333333,0.84037558685446])
 
-numPoints = 1000; % Adjust as needed
+numPoints = 50; % Adjust as needed
 logIndices = unique(round(logspace(0, log10(size(Gen_sample.k1, 1)), numPoints)));
 
 
@@ -883,7 +883,7 @@ legend(sprintf('Gen($U_{\\infty}=50$[m/s]) $z/\\delta$ = %.2f',Gen_sample.z(ind_
 figure
 set(gcf,'Position',[940,199,577,769])
 axes('Position',[0.1263,0.0819,0.8344,0.9051])
-loglog((1e-1:1e-5:1e3),(1e-1:1e-5:1e3).^(-7/3),'linewidth',2,'color',[1.00,0.74,0.17],'lineStyle','-')
+loglog((1e-1:1e1:1e3),(1e-1:1e1:1e3).^(-7/3),'linewidth',2,'color',[1.00,0.74,0.17],'lineStyle','-')
 hold on
 
 
@@ -1195,8 +1195,8 @@ semilogx(Gen_sample.r11/Gen_sample.z(ind_v), ...
     'linewidth',2,'color',[0.0, 0.0, 0.0])
 
 numPoints = 25; 
-logIndices = logspace(0.0, 0.47, numPoints);
-plot(logIndices, 2*1.26*log(logIndices)+2.5,'-',...
+logIndices = logspace(0.05, 0.5, numPoints);
+plot(logIndices, 2*1.26*log(logIndices)+4.2,'-',...
     'linewidth',2,'color',[0.93,0.69,0.13])
 
 ylim([0 12])

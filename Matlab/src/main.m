@@ -90,7 +90,7 @@ Gen_sample.SGVP(ro_uw, N_prof)
     is formulated through a Re dependent equation.
 %}
 Delta_x = lambda_T;
-M = ceil(80*sqrt(Gen_sample.u_tau*Gen_sample.delta/Gen_sample.nu));
+M = ceil(150*sqrt(Gen_sample.u_tau*Gen_sample.delta/Gen_sample.nu));
 Gen_sample.SGVF(Delta_x, M)
 
 %% Increasing the resolution of the SGVF and compute the lambda_ci field
@@ -177,31 +177,5 @@ Gen_sample.Structure_function_D22
 production_comp(Gen_sample)
 %% Saving
 
-save('C:\Users\ehsan010\Desktop\Gen_sample_largerstorage80_TPmodel.mat','Gen_sample')
+save('Gen_sample.mat','Gen_sample')
 
-
-%% Selective saving
-
-% x = Gen_sample.Gen_x_HRVF;
-% z =Gen_sample.z;
-% u = Gen_sample.Gen_u_HRVF;
-% w = Gen_sample.Gen_w_HRVF;
-% delta = Gen_sample.delta;
-% u_tau = Gen_sample.u_tau;
-% z_0 = Gen_sample.z_0;
-% lambda_T = Gen_sample.lambda;
-% nu = Gen_sample.nu;
-% 
-% save('C:\Users\ehsan010\Desktop\SGHRVFVorX_Saddoughi.mat', ...
-%     'x', ...
-%     'z', ...
-%     'u', ...
-%     'w', ...
-%     'delta', ...
-%     'u_tau', ...
-%     'z_0', ...
-%     'lambda_T', ...
-%     'nu')
-
-% Gen_sample.Gen_u_HRVF(:,:,1:149) = [];
-% Gen_sample.Gen_w_HRVF(:,:,1:149) = [];
