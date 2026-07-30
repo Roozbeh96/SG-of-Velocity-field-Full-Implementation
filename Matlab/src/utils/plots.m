@@ -327,7 +327,7 @@ loglog(k1_eta_10_Sadd,energy_10_Sadd,'LineStyle','none','LineWidth',1.5,'color',
     [0.00,0.00,1.00],'Marker','square','MarkerSize',8,'MarkerEdgeColor',[0,0,0],...
     'MarkerFaceColor',[0.00,0.00,1.00])
 
-numPoints = 20; % Adjust as needed
+numPoints = 50; % Adjust as needed
 logIndices = unique(round(logspace(0, log10(size(Gen_sample.k1, 1)), numPoints)));
 
 

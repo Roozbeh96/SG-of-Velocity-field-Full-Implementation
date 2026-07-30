@@ -47,6 +47,7 @@
 % end
 
 function Lambda_ci(obj)
+    tic
     % 1. Extract data to local variables (Required for parfor)
     Gen_u_HRVF = obj.Gen_u_HRVF;
     Gen_w_HRVF = obj.Gen_w_HRVF;
@@ -116,4 +117,5 @@ function Lambda_ci(obj)
     obj.omega = omega_local_out;
     obj.Lambda_cirms = Lambda_cirms_;
     obj.omega_rms = omega_rms_;
+    toc
 end

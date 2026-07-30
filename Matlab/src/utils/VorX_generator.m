@@ -6,6 +6,7 @@ function [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
     % Generating corrolated random numbers for radius and max-azimuthal
     % velocity. First we generate for near wall then generate for far from
     % the wall.
+    tic
     fprintf('Generation of Vortices...\n');
     obj.ro_r_u_omega_near_wall = 0.4;
     n = 1e7; % Number of samples
@@ -14,8 +15,7 @@ function [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
         n, repro_numb);
     %{
         Parameters can be found in Table 4 of the paper:
-        Stochastic generation of velocity fields to reproduce the energy
-        spectrum in wall turbulence
+        add link to the paper 3
     %}
     % Generating u_omega
     a = 0.65;
@@ -171,5 +171,5 @@ function [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
         r_wOlambda_T_far_deciles{i} = r_wOlambda_T_far(omega_far_norm >= valL & omega_far_norm <= valU);
     end
 
-
+    toc
 end

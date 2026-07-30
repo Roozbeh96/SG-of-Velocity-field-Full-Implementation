@@ -50,10 +50,12 @@
 
 
 function cdf_omega(obj)
+    tic
     % Find the distribution of mean omega in Shear Layers
-    % 1. Vectorized Filtering (Replaces your first for-loop)
+    % 1. Vectorized Filtering (keep strong shear layers)
     fprintf('Finding percentile of the omega in the field in parallel...\n');
-    threshold = 0.35 * obj.Lambda_cirms; % Assuming this is a column vector per row
+    gamma_filter = 0.35;
+    threshold = gamma_filter * obj.Lambda_cirms; % Assuming this is a column vector per row
     mask = abs(obj.Lambda_ci) >= threshold;
     omega_filtered = obj.omega .* mask;
 
@@ -107,4 +109,5 @@ function cdf_omega(obj)
     [cdf_, mean_omega_] = ecdf(abs(mean_omega_y_norm));
     obj.cdf_omega  = cdf_;
     obj.mean_omega = mean_omega_;
+    toc
 end

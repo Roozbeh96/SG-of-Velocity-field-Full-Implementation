@@ -52,20 +52,27 @@ function SG_VorX(obj, u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
         %     u_wOu_tau_far_deciles{i} = u_wOu_tau_far(omega_far_norm >= valL & omega_far_norm <= valU);
         %     r_wOlambda_T_far_deciles{i} = r_wOlambda_T_far(omega_far_norm >= valL & omega_far_norm <= valU);
         % end
-
+        tic
         % some counter parameters
         ii = 1; % counter for r_omega and u_omega of z/ks<2 vortices
         %(could be near-wall or lambda_ci vortices)
         iii = 1;% counter for z/ks>=2 vortices (lambda_ci vortices)
         progressbar('Adding VorX to the Velocity Field')
-        % Filter low intense lambda_ci regions.
-        Lambda_ci_filtered = obj.Lambda_ci;
-        omega_filtered = obj.omega;
+        
+        % Lambda_ci_filtered = obj.Lambda_ci;
+        % omega_filtered = obj.omega;
+        % gamma_filter = 0.35;
+        % for r = 1:size(obj.Lambda_ci, 1)
+        %         Lambda_ci_filtered(r, :, :) = obj.Lambda_ci(r, :, :) .* (abs(obj.Lambda_ci(r, :, :)) >= gamma_filter*obj.Lambda_cirms(r));
+        %         omega_filtered(r,:,:) = obj.omega(r, :, :) .* (abs(obj.Lambda_ci(r, :, :)) >= gamma_filter*obj.Lambda_cirms(r));
+        % end
 
-        for r = 1:size(obj.Lambda_ci, 1)
-                Lambda_ci_filtered(r, :, :) = obj.Lambda_ci(r, :, :) .* (abs(obj.Lambda_ci(r, :, :)) >= 0.35*obj.Lambda_cirms(r));
-                omega_filtered(r,:,:) = obj.omega(r, :, :) .* (abs(obj.Lambda_ci(r, :, :)) >= 0.35*obj.Lambda_cirms(r));
-        end
+        % Filter low intense lambda_ci regions.
+        gamma_filter = 0.35;
+        threshold = gamma_filter * obj.Lambda_cirms; % Assuming this is a column vector per row
+        mask = abs(obj.Lambda_ci) >= threshold;
+        Lambda_ci_filtered = obj.Lambda_ci .* mask;
+        omega_filtered = obj.omega .* mask;
 
         % Find the distribution of mean omega in Shear Layers for the
         % matter of matching decile process.
@@ -207,7 +214,7 @@ function SG_VorX(obj, u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
 
             end
 
-            % Lambda_ci vortices (Primary vortices)
+            % Adding vortices into shear layers (Primary vortices)
             Matrix_lambdaci = Lambda_ci_filtered(:,:,S);
             Matrix_omega = omega_filtered(:,:,S);
             binaryMatrix = Matrix_lambdaci ~= 0;
@@ -321,5 +328,5 @@ function SG_VorX(obj, u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
             end
             progressbar((S)/size(obj.Gen_u_HRVF,3))
         end
-
+        toc
 end

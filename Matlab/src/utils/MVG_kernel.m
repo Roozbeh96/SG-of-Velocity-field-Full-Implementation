@@ -1,5 +1,5 @@
 function MVG_kernel(obj, kern_xsize, kern_ysize, Sigma)
-
+    tic
     mu = [0 0];
 
     [X,Y] = meshgrid(linspace(-kern_xsize/2 * obj.lambda_T,...
@@ -32,5 +32,5 @@ function MVG_kernel(obj, kern_xsize, kern_ysize, Sigma)
         obj.Gen_w_HRVF(:,:,S) = conv2(obj.Gen_w_HRVF(:,:,S), kernel, 'same')./normalization_matrix;
         progressbar((S)/size(obj.Gen_u_HRVF,3))
     end
-
+    toc
 end

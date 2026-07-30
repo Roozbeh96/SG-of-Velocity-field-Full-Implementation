@@ -3,6 +3,7 @@ function [pr, rt,r_wOlambda_T,u_wOu_tau] = Lambdaci_VorX(obj,i,...
     u_wOu_tau, rho_uw_VorX, ind_, pr, rt, N, cdf_, mean_omega_,omega_,...
     omega_deciles, r_wOlambda_T_deciles, u_wOu_tau_deciles)
 
+    % Matching the percentile of the vorticity of the shear layer with the vorticity of the generated vortex.
     percentile_rank = cdf_(find(mean_omega_ <= abs(omega_), 1, 'last'))*100;
     percentile_rank = ceil(percentile_rank / 10);
     if isempty(percentile_rank)

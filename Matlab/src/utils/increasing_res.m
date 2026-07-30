@@ -53,6 +53,7 @@
 
 
 function increasing_res(obj, L0, factor)
+    tic
     L = ceil(L0*obj.delta/obj.Delta_x); 
     Numrator = floor((size(obj.Gen_u_LRVF,2)-1)/L);
     obj.Kr = factor;
@@ -138,4 +139,5 @@ function increasing_res(obj, L0, factor)
     obj.Gen_w_HRVF(:,:,1:round(0.2*size(obj.Gen_w_HRVF,3))) = [];
 
     fprintf('Done.\n');
+    toc
 end
