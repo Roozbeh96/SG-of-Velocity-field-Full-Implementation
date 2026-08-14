@@ -17,7 +17,9 @@ stochastic-modal-velocity-field-in-roughwall-turbulence/
 800D97E60609F4FE4D92847CCDB1C7A0
 
 **For SG of Vortex core:
-coming soon
+https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/
+stochastic-generation-of-velocity-fields-to-reproduce-the-energy-spectrum-
+in-wall-turbulence/1D7BDC29D1D577DAE7672E86E21641B7
 %}
 
 
@@ -194,30 +196,8 @@ Gen_sample.Structure_function_D22
 %% Computing production
 
 production_comp(Gen_sample)
+
 %% Saving
 
-save('C:\Users\ehsan010\Desktop\Gen_sample_largerstorage80_TPmodel.mat','Gen_sample')
-% % save('Gen_sample.mat','Gen_sample')
+save('Gen_sample.mat','Gen_sample')
 
-%% Selective saving
-
-% x = Gen_sample.Gen_x_HRVF;
-% z =Gen_sample.z;
-% u = Gen_sample.Gen_u_HRVF;
-% w = Gen_sample.Gen_w_HRVF;
-% delta = Gen_sample.delta;
-% u_tau = Gen_sample.u_tau;
-% z_0 = Gen_sample.z_0;
-% lambda_T = Gen_sample.lambda_T;
-% nu = Gen_sample.nu;
-% 
-% save('C:\Users\ehsan010\Desktop\SGHRVFVorX_Saddoughi(Corrected_U).mat', ...
-%     'x', ...
-%     'z', ...
-%     'u', ...
-%     'w', ...
-%     'delta', ...
-%     'u_tau', ...
-%     'z_0', ...
-%     'lambda_T', ...
-%     'nu')

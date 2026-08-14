@@ -15,7 +15,9 @@ function [u_wOu_tau_near, r_wOlambda_T_near, rho_uw_VorX_near,...
         n, repro_numb);
     %{
         Parameters can be found in Table 4 of the paper:
-        add link to the paper 3
+        https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/
+        stochastic-generation-of-velocity-fields-to-reproduce-the-energy-spectrum-in
+        -wall-turbulence/1D7BDC29D1D577DAE7672E86E21641B7
     %}
     % Generating u_omega
     a = 0.65;

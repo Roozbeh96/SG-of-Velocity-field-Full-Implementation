@@ -1,6 +1,6 @@
 function spec_analysis_E22(obj)
     %{
-    More info about how to compute the structure function in:
+    More info about how to compute the spectra in:
     https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/
     article/stochastic-modal-velocity-field-in-roughwall-turbulence/
     800D97E60609F4FE4D92847CCDB1C7A0

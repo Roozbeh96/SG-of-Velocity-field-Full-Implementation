@@ -6,7 +6,7 @@ Tools to stochastically generate turbulent boundary-layer (TBL) velocity fieldsâ
 
 2. https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/stochastic-modal-velocity-field-in-roughwall-turbulence/800D97E60609F4FE4D92847CCDB1C7A0
 
-3. coming soon
+3. https://www.cambridge.org/core/journals/journal-of-fluid-mechanics/article/stochastic-generation-of-velocity-fields-to-reproduce-the-energy-spectrum-in-wall-turbulence/1D7BDC29D1D577DAE7672E86E21641B7
 
 4. https://journals.ametsoc.org/view/journals/bams/105/1/BAMS-D-23-0066.1.xml
 
@@ -54,11 +54,11 @@ All the code files are in `Matlab/src` folder:
 - Lambdaci_VorX: code to insert vortices into shear layers
 
 `Matlab/src/utils/spec_analysis_E11.m`
-- spec_analysis_E11: In this function, Power spectrum density ($E_{11}$) of the generated velocity field.
+- spec_analysis_E11: In this function, Power spectrum density ($E_{11}$) of the generated velocity field is computed.
 - The same function for the vertical velocity ($E_{22}$), and the co-spectra ($E_{12}$) are provided.
 
 `Matlab/src/utils/str_func_D11.m`
-- str_func_D11: In this function, structure function ($D_{11}$) of the generated velocity field.
+- str_func_D11: In this function, structure function ($D_{11}$) of the generated velocity field is computed.
 - The same function for the vertical velocity ($D_{22}$) is provided.
 
 `Matlab/src/utils/plots`
