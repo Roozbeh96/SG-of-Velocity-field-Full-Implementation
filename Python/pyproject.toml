@@ -1,0 +1,25 @@
+[project]
+name = "sgvf"
+version = "0.1.0"
+description = "Stochastic generation of 2D turbulent boundary-layer velocity fields (Python port of the MATLAB package)."
+authors = [{ email = "ehsan010@umn.edu" }]
+readme = "../README.md"
+license = "CC-BY-NC-SA-4.0"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "numpy (>=2.0,<3.0)",
+    "scipy (>=1.13,<2.0)",
+    "matplotlib (>=3.8,<4.0)",
+    "tqdm (>=4.66,<5.0)",
+    "ipykernel (>=7.4.0,<8.0.0)",
+]
+
+[tool.poetry]
+packages = [{ include = "sgvf" }]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

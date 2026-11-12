@@ -4,11 +4,14 @@ __pycache__/
 *$py.class
 *.asv
 *.mat
+*.pkl
 *.pptx
 Figure
 Overleaffigures
 Graphical Abs
 submission files
+figures 
+tests
 
 # C extensions
 *.so
@@ -212,3 +215,7 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Backups of the plotting files
+plots_old.py
+plots_old.m
