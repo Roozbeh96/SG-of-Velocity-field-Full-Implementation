@@ -303,5 +303,69 @@ If you use this code, please cite:
 }
 ```
 
+The model builds on the following papers; please cite them as well when relevant:
+
+```bibtex
+@article{ehsani2024stochasticvelocityprofile,
+      title={Stochastic modelling of the instantaneous velocity profile in rough-wall turbulent boundary layers},
+      author={Ehsani, Roozbeh and Heisel, Michael and Li, Jiaqi and Voller, Vaughan and Hong, Jiarong and Guala, Michele},
+      journal={Journal of Fluid Mechanics},
+      volume={979},
+      pages={A12},
+      year={2024},
+      publisher={Cambridge University Press},
+      doi={10.1017/jfm.2023.999},
+}
+
+@article{ehsani2024stochasticmodalvelocityfield,
+      title={Stochastic modal velocity field in rough-wall turbulence},
+      author={Ehsani, Roozbeh and Heisel, Michael and Puccioni, Matteo and Hong, Jiarong and Iungo, Valerio and Voller, Vaughan and Guala, Michele},
+      journal={Journal of Fluid Mechanics},
+      volume={999},
+      pages={A56},
+      year={2024},
+      publisher={Cambridge University Press},
+      doi={10.1017/jfm.2024.933},
+}
+
+@article{ehsani2026stochasticgenerationvelocityfields,
+      title={Stochastic generation of velocity fields to reproduce the energy spectrum in wall turbulence},
+      author={Ehsani, Roozbeh and Heisel, Michael and Guala, Michele},
+      journal={Journal of Fluid Mechanics},
+      volume={1040},
+      pages={A46},
+      year={2026},
+      publisher={Cambridge University Press},
+      doi={10.1017/jfm.2026.11886},
+}
+
+@article{iungo2024gaia,
+      title={Grand-Scale Atmospheric Imaging Apparatus ({GAIA}) and Wind Lidar Multiscale Measurements in the Atmospheric Surface Layer},
+      author={Iungo, Giacomo Valerio and Guala, Michele and Hong, Jiarong and Bristow, Nathaniel and Puccioni, Matteo and Hartford, Peter and Ehsani, Roozbeh and Letizia, Stefano and Li, Jiaqi and Moss, Coleman},
+      journal={Bulletin of the American Meteorological Society},
+      volume={105},
+      number={1},
+      pages={E121--E143},
+      year={2024},
+      publisher={American Meteorological Society},
+      doi={10.1175/BAMS-D-23-0066.1},
+}
+```
+
+The experimental data used for the comparisons are from:
+
+```bibtex
+@article{saddoughi1994localisotropy,
+      title={Local isotropy in turbulent boundary layers at high {R}eynolds number},
+      author={Saddoughi, Seyed G. and Veeravalli, Srinivas V.},
+      journal={Journal of Fluid Mechanics},
+      volume={268},
+      pages={333--372},
+      year={1994},
+      publisher={Cambridge University Press},
+      doi={10.1017/S0022112094001370},
+}
+```
+
 ## License
 This work is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) (Attribution-NonCommercial-ShareAlike 4.0 International). See [LICENSE](LICENSE).
